@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Division</title>
+	<style type="text/css">
+		form ul {
+			list-style: none;
+		}
+		form ul li{
+			margin-bottom: .5em;
+		}
+	</style>
+</head>
+<body>
+	<form action="Calcular.php" method="POST" id="cal" >
+		<ul>
+			<li><label for="nro1">Numero: </label><input type="text" name="nro1" id="nro1" placeholder=""></li>
+			<li><label for="nro2">Numero: </label><input type="text" name="nro2" id="nro2" placeholder=""></li>
+			<li><label for="nro2">Numero: </label>
+				<select name="op" id="op">
+					<option >sumar</option>
+					<option >restar</option>
+					<option >multiplicar</option>
+					<option >dividir</option>
+				</select>
+			</li>
+		</ul>
+		<input type="submit" value="Calcular">
+	</form>
+	<div id="res"></div>
+	<script type="text/javascript">
+		document.getElementById("cal").onsubmit=calcular;
+		function calcular(e) {
+			e.preventDefault();
+			var xht = new XMLHttpRequest();
+			xht.onreadystatechange=function () {
+				if (this.status==200 && this.readyState==4) {
+					document.getElementById("res").innerHTML=this.responseText;	
+				}
+			}
+			var nro1 = document.getElementById("nro1").value;
+			var nro2 = document.getElementById("nro2").value;
+			var op = document.getElementById("op").value;
+			console.log(nro1+'---'+nro2+"---"+op);
+			//var datos = "nro1="+nro1+"&nro2="+nro2;
+			var datos = {'nro1':nro1,'nro2':nro2};
+			xht.open('POST','Calcular.php');
+			xht.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+			xht.send('datos='+JSON.stringify(datos));
+		}
+	</script>
+</body>
+</html>

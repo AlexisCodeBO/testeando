@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Division</title>
+	<style type="text/css">
+		form ul {
+			list-style: none;
+		}
+		form ul li{
+			margin-bottom: .5em;
+		}
+	</style>
+</head>
+<body>
+	<form action="Calcular.php" method="POST" id="cal" >
+		<ul>
+
+		<li><label for="not1">Nota parcial 1: </label><input type="text" name="not1" id="not1" placeholder=""></li>
+		<li><label for="not2">Nota parcial 2: </label><input type="text" name="not2" id="not2" placeholder=""></li>
+		<li><label for="not3">Nota examen fin: </label><input type="text" name="not3" id="not3" placeholder=""></li>
+		<li><label for="not4">Nota examen recuperación: </label><input type="text" name="not4" id="not4" placeholder=""></li>
+		
+		</ul>
+		<input type="submit" value="Calcular">
+	</form>
+	<div id="res"></div>
+	<script type="text/javascript">
+		document.getElementById("cal").onsubmit=calcular;
+		function calcular(e) {
+			e.preventDefault();
+			var s = new XMLHttpRequest();
+			s.onreadystatechange=function () {
+				if (this.status==200 && this.readyState==4) {
+					document.getElementById("res").innerHTML=this.responseText;	
+				}
+			}
+			var not1 = document.getElementById("not1").value;
+			var not2= document.getElementById("not2").value;
+			var not3=document.getElementById("not3").value;
+			
+			console.log(not1+'---'+not2+"---"+not3);
+			//var datos = "nro1="+nro1+"&nro2="+nro2;
+			var notas = {'not1':not1,'not2':not2, 'not3':not3};
+			s.open('POST','nota.php');
+			s.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+			s.send('notas='+JSON.stringify(notas));
+		}
+	</script>
+</body>
+</html>
